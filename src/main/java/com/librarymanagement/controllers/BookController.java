@@ -18,7 +18,7 @@ public class BookController {
         return bookService.saveBook(baseBookDto);
     }
 
-    @GetMapping("/{{isbn}}")
+    @GetMapping("/{isbn}")
     public ResponseEntity<Object> getBookByIsbn(@PathVariable Integer isbn) {
         return bookService.getBookByIsbn(isbn);
     }
@@ -28,7 +28,7 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-    @PostMapping("")
+    @PostMapping("-update")
     public ResponseEntity<Object> updateBookById(@RequestParam Long id, @RequestBody BaseBookDto baseBookDto) {
         return bookService.updateBookById(id, baseBookDto);
     }
