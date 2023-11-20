@@ -34,6 +34,7 @@ public class BookController {
         try {
             return bookService.getBookByIsbn(isbn);
         } catch (Exception e) {
+            log.error("BookController :: getBookByIsbn", e);
             return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.SERVER_ERROR, "Server Error"), HttpStatus.OK);
         }
     }
@@ -43,6 +44,7 @@ public class BookController {
         try {
             return bookService.getAllBooks();
         } catch (Exception e) {
+            log.error("BookController :: getAllBooks", e);
             return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.SERVER_ERROR, "Server Error"), HttpStatus.OK);
         }
     }
@@ -52,6 +54,7 @@ public class BookController {
         try {
             return bookService.updateBookById(id, baseBookDto);
         } catch (Exception e) {
+            log.error("BookController :: updateBookById", e);
             return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.SERVER_ERROR, "Server Error"), HttpStatus.OK);
         }
     }
