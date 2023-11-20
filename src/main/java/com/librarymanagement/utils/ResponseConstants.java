@@ -11,6 +11,7 @@ public class ResponseConstants {
     public static final String FORBIDDEN = "403 forbidden";
     public static final String BAD_REQUEST = "400 bad request";
     public static final String INTERNAL_ERROR = "500 internal server error";
+    public static final String SERVER_ERROR = "501 Server error";
 
 
 }

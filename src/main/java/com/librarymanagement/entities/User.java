@@ -33,4 +33,7 @@ public class User {
 
     @Column(name = "ADDRESS")
     private String address;
+
+    @Column(name = "STATUS")
+    private Boolean status;
 }
