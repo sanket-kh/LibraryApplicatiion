@@ -1,6 +1,8 @@
 package com.librarymanagement.controllers;
 
-import com.librarymanagement.models.dtos.BaseBookDto;
+
+import com.librarymanagement.models.requests.ExistingBookRequest;
+import com.librarymanagement.models.requests.SaveBookRequest;
 import com.librarymanagement.services.BookService;
 import com.librarymanagement.utils.ResponseConstants;
 import com.librarymanagement.utils.ResponseUtility;
@@ -13,18 +15,18 @@ import org.springframework.web.bind.annotation.*;
 @Log4j2
 @RestController
 @AllArgsConstructor
-@ControllerAdvice
-@RequestMapping("api/v1/books")
+@RequestMapping(value = "api/v1/books")
 public class BookController {
     private BookService bookService;
 
-    @PostMapping("")
-    public ResponseEntity<Object> saveBook(@RequestBody BaseBookDto baseBookDto) {
+    @PostMapping(value = "/save")
+    public ResponseEntity<Object> saveBook(@RequestBody SaveBookRequest saveBookRequest) {
         try {
-            return bookService.saveBook(baseBookDto);
+            return bookService.saveBook(saveBookRequest);
         } catch (Exception e) {
             log.error("BookController :: saveBook", e);
-            return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.SERVER_ERROR, "Server Error"), HttpStatus.OK);
+            return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.SERVER_ERROR,
+                    "Server Error"), HttpStatus.OK);
 
         }
     }
@@ -35,27 +37,41 @@ public class BookController {
             return bookService.getBookByIsbn(isbn);
         } catch (Exception e) {
             log.error("BookController :: getBookByIsbn", e);
-            return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.SERVER_ERROR, "Server Error"), HttpStatus.OK);
+            return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.SERVER_ERROR,
+                    "Server Error"), HttpStatus.OK);
         }
     }
 
-    @GetMapping("")
+    @GetMapping("/get-all")
     public ResponseEntity<Object> getAllBooks() {
         try {
             return bookService.getAllBooks();
         } catch (Exception e) {
             log.error("BookController :: getAllBooks", e);
-            return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.SERVER_ERROR, "Server Error"), HttpStatus.OK);
+            return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.SERVER_ERROR,
+                    "Server Error"), HttpStatus.OK);
         }
     }
 
-    @PostMapping("-update")
-    public ResponseEntity<Object> updateBookById(@RequestParam Long id, @RequestBody BaseBookDto baseBookDto) {
+    @PostMapping("/update")
+    public ResponseEntity<Object> updateBookById(@RequestParam Long id, @RequestBody SaveBookRequest saveBookRequest) {
         try {
-            return bookService.updateBookById(id, baseBookDto);
+            return bookService.updateBookById(id, saveBookRequest);
         } catch (Exception e) {
             log.error("BookController :: updateBookById", e);
-            return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.SERVER_ERROR, "Server Error"), HttpStatus.OK);
+            return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.SERVER_ERROR,
+                    "Server Error"), HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/add-existing/")
+    public ResponseEntity<Object> addExistingBookByIsbn(@RequestBody ExistingBookRequest existingBookRequest) {
+        try {
+            return bookService.addExistingBookByIsbn(existingBookRequest);
+        } catch (Exception e) {
+            log.error("BookController :: addExistingBookByIsbn", e);
+            return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.SERVER_ERROR,
+                    "Server Error"), HttpStatus.OK);
         }
     }
 }

@@ -3,7 +3,9 @@ package com.librarymanagement.utils;
 public class ResponseConstants {
     public static final String CREATED = "201 created";
     public static final String NOT_CREATED = "203 not-created";
-    public static final String NON_AUTHORITATIVE = "202 non-authorative";
+
+    public static final String ALREADY_EXISTS = "206 already-exists";
+    public static final String UN_AUTHORIZED = "202 un-authorized";
     public static final String NO_CONTENT = "204 no-content";
     public static final String UPDATED = "205 resource updated";
     public static final String OK = "200 ok";
