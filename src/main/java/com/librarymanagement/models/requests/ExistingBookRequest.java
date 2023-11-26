@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ExistingBookRequest {
-    private Integer isbn;
+    private Long isbn;
     private Integer copies;
 }

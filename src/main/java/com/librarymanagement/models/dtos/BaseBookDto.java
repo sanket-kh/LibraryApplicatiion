@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BaseBookDto {
-    private Integer isbn;
+    private Long isbn;
     private String title;
     private Integer copies;
 }

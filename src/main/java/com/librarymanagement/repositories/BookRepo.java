@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookRepo extends JpaRepository<Book, Long> {
 
-    Book getBookByIsbn(Integer isbn);
+    Book getBookByIsbn(Long isbn);
 
     Book getBookById(Long id);
 }

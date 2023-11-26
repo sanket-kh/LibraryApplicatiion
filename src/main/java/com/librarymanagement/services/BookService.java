@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 public interface BookService {
     ResponseEntity<Object> saveBook(SaveBookRequest saveBookRequest);
 
-    ResponseEntity<Object> getBookByIsbn(Integer isbn);
+    ResponseEntity<Object> getBookByIsbn(Long isbn);
 
     ResponseEntity<Object> getAllBooks();
 

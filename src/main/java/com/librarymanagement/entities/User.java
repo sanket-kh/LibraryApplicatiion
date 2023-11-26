@@ -29,7 +29,7 @@ public class User {
     private String email;
 
     @Column(name = "PHONE")
-    private Integer phone;
+    private Long phone;
 
     @Column(name = "ADDRESS")
     private String address;

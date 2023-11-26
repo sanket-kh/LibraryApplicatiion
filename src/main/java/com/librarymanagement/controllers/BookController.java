@@ -32,7 +32,7 @@ public class BookController {
     }
 
     @GetMapping("/{isbn}")
-    public ResponseEntity<Object> getBookByIsbn(@PathVariable Integer isbn) {
+    public ResponseEntity<Object> getBookByIsbn(@PathVariable Long isbn) {
         try {
             return bookService.getBookByIsbn(isbn);
         } catch (Exception e) {

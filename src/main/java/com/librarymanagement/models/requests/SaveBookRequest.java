@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class SaveBookRequest {
 
-    private Integer isbn;
+    private Long isbn;
     private String title;
     private Integer copies;
 }

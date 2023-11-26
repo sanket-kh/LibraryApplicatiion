@@ -51,7 +51,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseEntity<Object> getBookByIsbn(Integer isbn) {
+    public ResponseEntity<Object> getBookByIsbn(Long isbn) {
         try {
             Book book = bookRepo.getBookByIsbn(isbn);
             if (book == null) {
@@ -114,11 +114,11 @@ public class BookServiceImpl implements BookService {
     public ResponseEntity<Object> addExistingBookByIsbn(ExistingBookRequest existingBookRequest) {
         try {
             Book book = bookRepo.getBookByIsbn(existingBookRequest.getIsbn());
-            if(book==null){
+            if (book == null) {
                 return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.NOT_FOUND,
-                        "Book with isbn:"+existingBookRequest.getIsbn()+" doesnt exist"), HttpStatus.OK);
+                        "Book with isbn:" + existingBookRequest.getIsbn() + " doesnt exist"), HttpStatus.OK);
             }
-            book.setCopies(book.getCopies()+existingBookRequest.getCopies());
+            book.setCopies(book.getCopies() + existingBookRequest.getCopies());
             bookRepo.save(book);
             return new ResponseEntity<>(ResponseUtility.successResponseWithMessage(ResponseConstants.UPDATED,
                     "Quantity of books updated"), HttpStatus.OK);
