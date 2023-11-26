@@ -7,5 +7,6 @@ import lombok.Setter;
 @Setter
 public class UserBookDto {
     private Long isbn;
+    private String author;
     private String title;
 }

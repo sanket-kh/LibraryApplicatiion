@@ -15,6 +15,7 @@ public class BookMapper {
         baseBookDto.setCopies(book.getCopies());
         baseBookDto.setIsbn(book.getIsbn());
         baseBookDto.setTitle(book.getTitle());
+        baseBookDto.setAuthor(book.getAuthor());
         return baseBookDto;
     }
 
@@ -23,6 +24,7 @@ public class BookMapper {
         book.setCopies(baseBookDto.getCopies());
         book.setIsbn(baseBookDto.getIsbn());
         book.setTitle(baseBookDto.getTitle());
+        book.setAuthor(baseBookDto.getAuthor());
         return book;
     }
 
@@ -30,6 +32,7 @@ public class BookMapper {
         UserBookDto userBookDto = new UserBookDto();
         userBookDto.setIsbn(book.getIsbn());
         userBookDto.setTitle(book.getTitle());
+        userBookDto.setAuthor(book.getAuthor());
         return userBookDto;
     }
 
@@ -37,6 +40,7 @@ public class BookMapper {
         Book book = new Book();
         book.setIsbn(userBookDto.getIsbn());
         book.setTitle(userBookDto.getTitle());
+        book.setAuthor(userBookDto.getAuthor());
         return book;
     }
 
@@ -45,6 +49,7 @@ public class BookMapper {
         book.setIsbn(saveBookRequest.getIsbn());
         book.setTitle(saveBookRequest.getTitle());
         book.setCopies(saveBookRequest.getCopies());
+        book.setAuthor(saveBookRequest.getAuthor());
         return book;
     }
 
@@ -53,6 +58,7 @@ public class BookMapper {
         saveBookRequest.setTitle(book.getTitle());
         saveBookRequest.setIsbn(book.getIsbn());
         saveBookRequest.setCopies(book.getCopies());
+        saveBookRequest.setAuthor(book.getAuthor());
         return saveBookRequest;
     }
 

@@ -8,5 +8,6 @@ import lombok.Setter;
 public class BaseBookDto {
     private Long isbn;
     private String title;
+    private String author;
     private Integer copies;
 }

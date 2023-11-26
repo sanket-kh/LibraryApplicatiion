@@ -1,6 +1,7 @@
 package com.librarymanagement.controllers;
 
 
+import com.librarymanagement.models.requests.BookSearchFilterRequest;
 import com.librarymanagement.models.requests.ExistingBookRequest;
 import com.librarymanagement.models.requests.SaveBookRequest;
 import com.librarymanagement.services.BookService;
@@ -10,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Log4j2
@@ -43,9 +45,9 @@ public class BookController {
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<Object> getAllBooks() {
+    public ResponseEntity<Object> getAllBooks(@RequestParam(defaultValue = "0") Integer page) {
         try {
-            return bookService.getAllBooks();
+            return bookService.getAllBooks(page);
         } catch (Exception e) {
             log.error("BookController :: getAllBooks", e);
             return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.SERVER_ERROR,
@@ -73,5 +75,18 @@ public class BookController {
             return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.SERVER_ERROR,
                     "Server Error"), HttpStatus.OK);
         }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Object> searchBook(@RequestBody BookSearchFilterRequest bookSearchFilterRequest) {
+        System.out.println(bookSearchFilterRequest.getIsbn());
+        if ((bookSearchFilterRequest.getTitle() == null || bookSearchFilterRequest.getTitle().isBlank()) &&
+            bookSearchFilterRequest.getIsbn() == null &&
+            (bookSearchFilterRequest.getAuthor() == null || bookSearchFilterRequest.getAuthor().isBlank())
+            ) {
+            return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.BAD_REQUEST,
+                    "Invalid search parameters"), HttpStatus.OK);
+        }
+        return bookService.searchBook(bookSearchFilterRequest);
     }
 }

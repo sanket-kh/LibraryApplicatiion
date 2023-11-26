@@ -3,7 +3,9 @@ package com.librarymanagement.services.serviceImpls;
 import com.librarymanagement.entities.Book;
 import com.librarymanagement.mappers.bookmappers.BookMapper;
 
+import com.librarymanagement.models.dtos.BaseBookDto;
 import com.librarymanagement.models.dtos.UserBookDto;
+import com.librarymanagement.models.requests.BookSearchFilterRequest;
 import com.librarymanagement.models.requests.ExistingBookRequest;
 import com.librarymanagement.models.requests.SaveBookRequest;
 import com.librarymanagement.repositories.BookRepo;
@@ -12,6 +14,10 @@ import com.librarymanagement.utils.ResponseConstants;
 import com.librarymanagement.utils.ResponseUtility;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -69,9 +75,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseEntity<Object> getAllBooks() {
+    public ResponseEntity<Object> getAllBooks(Integer pageNumber) {
         try {
-            List<Book> bookList = bookRepo.findAll();
+            Pageable pageable = PageRequest.of(pageNumber, 1, Sort.by("title"));
+            Page<Book> bookPage = bookRepo.findAll(pageable);
+            List<Book> bookList = bookPage.getContent();
             if (bookList.isEmpty()) {
                 return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.NOT_FOUND,
                         "No books in the library"), HttpStatus.OK);
@@ -98,6 +106,7 @@ public class BookServiceImpl implements BookService {
             book.setTitle(saveBookRequest.getTitle());
             book.setCopies(saveBookRequest.getCopies());
             book.setIsbn(saveBookRequest.getIsbn());
+            book.setAuthor(saveBookRequest.getAuthor());
             bookRepo.save(book);
             book = bookRepo.getBookById(id);
             SaveBookRequest updatedBookDto = BookMapper.mapBookToSaveBookRequest(book);
@@ -128,5 +137,21 @@ public class BookServiceImpl implements BookService {
                     "Failed to update book's copies"), HttpStatus.OK);
         }
     }
+
+    @Override
+    public ResponseEntity<Object> searchBook(BookSearchFilterRequest bookSearchFilterRequest) {
+        List<Book> bookList = bookRepo.bookSearchFilter(bookSearchFilterRequest);
+        System.out.println(bookList.size());
+        if (bookList.isEmpty()) {
+            return new ResponseEntity<>(ResponseUtility.successResponseWithMessage(ResponseConstants.OK,
+                    "Book(s) not found, try again"), HttpStatus.OK);
+
+        }
+        List<BaseBookDto> baseBookDtoList = BookMapper.mapBookListToBaseBookDtoList(bookList);
+        return new ResponseEntity<>(ResponseUtility.successResponseWithMessageAndBody(ResponseConstants.OK,
+                "Book(s) found", baseBookDtoList), HttpStatus.OK);
+
+    }
+
 
 }
