@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BurrowRequest {
+public class BorrowRequest {
     private String username;
     private Long isbn;
 

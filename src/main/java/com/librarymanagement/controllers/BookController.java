@@ -66,7 +66,7 @@ public class BookController {
         }
     }
 
-    @PostMapping("/add-existing/")
+    @PostMapping("/add-existing")
     public ResponseEntity<Object> addExistingBookByIsbn(@RequestBody ExistingBookRequest existingBookRequest) {
         try {
             return bookService.addExistingBookByIsbn(existingBookRequest);

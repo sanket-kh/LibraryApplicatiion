@@ -1,14 +1,15 @@
 package com.librarymanagement.services;
 
-import com.librarymanagement.models.requests.BurrowRequest;
+import com.librarymanagement.models.requests.BorrowRequest;
+import com.librarymanagement.models.requests.ReserveRequest;
 import org.springframework.http.ResponseEntity;
 
 public interface ReserveAndBorrowService {
-    ResponseEntity<Object> burrowBook(BurrowRequest burrowRequest);
-    ResponseEntity<Object> returnBook(BurrowRequest returnRequest);
-    ResponseEntity<Object> reserveUnavailableBook();
-    ResponseEntity<Object> cancelReservationOfBook();
-    ResponseEntity<Object> viewBurrowedBooksByUser();
+    ResponseEntity<Object> burrowBook(BorrowRequest borrowRequest);
+    ResponseEntity<Object> returnBook(BorrowRequest returnRequest);
+    ResponseEntity<Object> reserveUnavailableBook(ReserveRequest reserveRequest);
+    ResponseEntity<Object> cancelReservationOfBook(ReserveRequest cancleReserveRequest);
+    ResponseEntity<Object> viewBurrowedBooksByUser(String username);
     ResponseEntity<Object> viewReservedBooksByUser();
 
 }

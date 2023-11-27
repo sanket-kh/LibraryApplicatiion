@@ -6,7 +6,8 @@ import com.librarymanagement.entities.User;
 import com.librarymanagement.mappers.FineMapper;
 import com.librarymanagement.mappers.ReserveAndBorrowMapper;
 import com.librarymanagement.models.dtos.finedtos.FineDto;
-import com.librarymanagement.models.requests.BurrowRequest;
+import com.librarymanagement.models.requests.BorrowRequest;
+import com.librarymanagement.models.requests.ReserveRequest;
 import com.librarymanagement.repositories.BookRepo;
 import com.librarymanagement.repositories.ReserveAndBurrowRepo;
 import com.librarymanagement.repositories.UserRepo;
@@ -26,15 +27,15 @@ import java.time.Period;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class ReserveAndBorrowServiceImpl implements ReserveAndBorrowService {
     private BookRepo bookRepo;
     private UserRepo userRepo;
     private ReserveAndBurrowRepo reserveAndBurrowRepo;
     private FineService fineService;
     @Override
-    @Transactional
-    public ResponseEntity<Object> burrowBook(BurrowRequest burrowRequest) {
-        User user = userRepo.findUserByUsername(burrowRequest.getUsername());
+    public ResponseEntity<Object> burrowBook(BorrowRequest borrowRequest) {
+        User user = userRepo.findUserByUsername(borrowRequest.getUsername());
         if(user==null){
             return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.NOT_FOUND,
                     "Invalid username"), HttpStatus.OK);
@@ -44,7 +45,7 @@ public class ReserveAndBorrowServiceImpl implements ReserveAndBorrowService {
                     "User is disabled"), HttpStatus.OK);
         }
 
-        Book book = bookRepo.getBookByIsbn(burrowRequest.getIsbn());
+        Book book = bookRepo.getBookByIsbn(borrowRequest.getIsbn());
         if(book == null){
             return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.NOT_FOUND,
                     "The book doesnt exist in the library"), HttpStatus.OK);
@@ -76,8 +77,7 @@ public class ReserveAndBorrowServiceImpl implements ReserveAndBorrowService {
     }
 
     @Override
-    @Transactional
-    public ResponseEntity<Object> returnBook(BurrowRequest returnRequest) {
+    public ResponseEntity<Object> returnBook(BorrowRequest returnRequest) {
         User user = userRepo.findUserByUsername(returnRequest.getUsername());
         if(user==null){
             return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.NOT_FOUND,
@@ -112,17 +112,46 @@ public class ReserveAndBorrowServiceImpl implements ReserveAndBorrowService {
     }
 
     @Override
-    public ResponseEntity<Object> reserveUnavailableBook() {
+    public ResponseEntity<Object> reserveUnavailableBook(ReserveRequest reserveRequest) {
+        User user = userRepo.findUserByUsername(reserveRequest.getUsername());
+        if(user==null){
+            return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.NOT_FOUND,
+                    "Invalid username"), HttpStatus.OK);
+        }
+        Book book = bookRepo.getBookByIsbn(reserveRequest.getIsbn());
+        if(book == null){
+            return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.NOT_FOUND,
+                    "The book doesnt exist in the library"), HttpStatus.OK);
+        }
+        if(book.getCopies()!= 0){
+            return new ResponseEntity<>(ResponseUtility.successResponseWithMessage(ResponseConstants.FORBIDDEN,
+                    "Cannot reserve available book. Borrow it instead"), HttpStatus.OK);
+        }
+
+        ReserveAndBorrow reserveAndBorrow = new ReserveAndBorrow();
+        reserveAndBorrow.setBook(book);
+        reserveAndBorrow.setUser(user);
+        reserveAndBorrow.setIsIssued(Boolean.FALSE);
+        reserveAndBurrowRepo.save(reserveAndBorrow);
+
+        return new ResponseEntity<>(ResponseUtility.successResponseWithMessage(ResponseConstants.OK,
+                "The book has been reserved"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Object> cancelReservationOfBook(ReserveRequest cancleReserveRequest) {
+
         return null;
     }
 
     @Override
-    public ResponseEntity<Object> cancelReservationOfBook() {
-        return null;
-    }
+    public ResponseEntity<Object> viewBurrowedBooksByUser(String username) {
+        User user = userRepo.findUserByUsername(username);
+        if(user==null){
+            return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.NOT_FOUND,
+                    "Invalid username"), HttpStatus.OK);
+        }
 
-    @Override
-    public ResponseEntity<Object> viewBurrowedBooksByUser() {
         return null;
     }
 

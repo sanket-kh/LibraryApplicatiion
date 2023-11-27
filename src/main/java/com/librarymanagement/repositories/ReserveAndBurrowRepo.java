@@ -20,4 +20,10 @@ List<ReserveAndBorrow> findReserveAndBurrowByBookAndUser(Book book, User user);
                 "AND R.user = :user" +
                 " AND R.isIssued = TRUE ")
 ReserveAndBorrow findExistingTransactionByBookAndUser(Book book, User user);
+
+    @Query( value = "" +
+            "SELECT R from ReserveAndBorrow R " +
+            "WHERE R.user = :user" +
+            " AND R.isIssued = TRUE ")
+List<ReserveAndBorrow> findIssuedBooksByUser(User user);
 }
