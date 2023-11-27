@@ -1,4 +1,4 @@
-package com.librarymanagement.models.dtos;
+package com.librarymanagement.models.dtos.bookdtos;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserBookDto {
-    private Integer isbn;
+    private Long isbn;
+    private String author;
     private String title;
 }

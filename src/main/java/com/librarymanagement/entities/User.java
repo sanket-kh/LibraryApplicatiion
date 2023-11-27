@@ -1,11 +1,10 @@
 package com.librarymanagement.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -14,6 +13,7 @@ import lombok.Setter;
 public class User {
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "FIRST_NAME")
@@ -28,9 +28,19 @@ public class User {
     @Column(name = "EMAIL")
     private String email;
 
+    @Column(name = "PASSWORD")
+    private String password;
+
     @Column(name = "PHONE")
-    private Integer phone;
+    private Long phone;
 
     @Column(name = "ADDRESS")
     private String address;
+
+    @Column(name = "STATUS")
+    private Boolean status;
+
+    @OneToMany(mappedBy = "user")
+    private List<ReserveAndBorrow> reserveAndBorrowList;
+
 }

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -15,12 +17,18 @@ public class Book {
     private Long id;
 
     @Column(name = "ISBN", nullable = false, unique = true)
-    private Integer isbn;
+    private Long isbn;
 
     @Column(name = "TITLE", nullable = false)
     private String title;
 
+    @Column(name = "AUTHOR", nullable = false)
+    private String author;
+
     @Column(name = "COPIES", nullable = false)
     private Integer copies;
+
+    @OneToMany(mappedBy = "book")
+    private List<ReserveAndBorrow> reserveAndBorrowList;
 
 }
