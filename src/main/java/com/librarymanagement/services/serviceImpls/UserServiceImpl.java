@@ -13,6 +13,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+
 @Log4j2
 @Service
 @AllArgsConstructor
@@ -28,6 +31,7 @@ private UserRepo userRepo;
             }
             user = UserMapper.mapToUser(userRegisterRequest);
             user.setStatus(Boolean.TRUE);
+            user.setReserveAndBorrowList(new ArrayList<>());
             userRepo.save(user);
             return new ResponseEntity<>(ResponseUtility.successResponseWithMessage(ResponseConstants.CREATED,
                     "User registered successfully"), HttpStatus.OK);
