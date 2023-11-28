@@ -16,7 +16,7 @@ public class ReserveAndBorrow {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "RESERVED")
+    @Column(name = "IS_RESERVED")
     private Boolean reserved;
 
     @Column(name = "IS_ISSUED")
