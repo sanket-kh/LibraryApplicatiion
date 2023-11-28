@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
-@Table(name = "RESERVE_AND_BURROW")
+@Table(name = "RESERVE_AND_BORROW")
 public class ReserveAndBorrow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class ReserveAndBorrow {
     @JoinColumn(name = "BOOK_ID")
     private Book book;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "reserveAndBorrow" , cascade = CascadeType.ALL)
     private Fine fine;
 
 }

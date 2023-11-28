@@ -23,5 +23,9 @@ public class Fine {
     @Column(name = "IS_PAID")
     private Boolean isPaid;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "RESERVE_AND_BORROW_ID")
+    private ReserveAndBorrow reserveAndBorrow;
+
 
 }

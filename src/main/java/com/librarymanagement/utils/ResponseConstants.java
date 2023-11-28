@@ -12,6 +12,7 @@ public class ResponseConstants {
     public static final String NOT_FOUND = "404 not found";
     public static final String FORBIDDEN = "403 forbidden";
     public static final String BAD_REQUEST = "400 bad request";
+    public static final String DISABLED_USER = "401 user disabled";
     public static final String INTERNAL_ERROR = "500 internal server error";
     public static final String SERVER_ERROR = "501 Server error";
 
