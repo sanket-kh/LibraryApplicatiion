@@ -202,7 +202,7 @@ public class ReserveAndBorrowServiceImpl implements ReserveAndBorrowService {
             List<BorrowedBookDto> borrowedBookList = reserveAndBurrowRepo.findBorrowedBooksByUsername(username);
 
             if(borrowedBookList.isEmpty()){
-                    return new ResponseEntity<>(ResponseUtility.failureResponseWithMessage(ResponseConstants.NOT_FOUND,
+                    return new ResponseEntity<>(ResponseUtility.successResponseWithMessage(ResponseConstants.OK,
                             "User has not borrowed any book"), HttpStatus.OK);
                 }
             return new ResponseEntity<>(ResponseUtility.failureResponseWithMessageAndBody(ResponseConstants.OK,
